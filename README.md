@@ -55,13 +55,7 @@ architecture.
 | `library-notification-service` | **subscriber**: writes a notification per borrow | 8201 |
 | `library-popularity-service` | **subscriber**: counts borrows per book | 8202 |
 
-```
-                              +--------------------------+
- POST /borrows                |   Kafka broker  :9094    | --->  notification-service :8201
------------> borrow-service ->|   topic "borrows"        |
-                    :8200     |   (a log of events)      | --->  popularity-service :8202
-                              +--------------------------+
-```
+![one announcement, two reactions](pubsub-overview.png)
 
 The three services have **no dependency on each other** - open the `pom.xml`
 files and check. They only agree on two things: the topic name, and what the
