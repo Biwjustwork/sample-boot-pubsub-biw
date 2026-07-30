@@ -1,24 +1,26 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Launch EurekaNamingServer",
+            "name": "1. borrow-service (8200) - the producer",
             "request": "launch",
-            "mainClass": "lab.microservice.namingserver.SpringBootMicroserviceEurekaNamingServerApplication",
-            "projectName": "sample-microservice-eureka-naming-server"
+            "mainClass": "th.mfu.borrow.BorrowServiceApp",
+            "projectName": "library-borrow-service"
         },
         {
             "type": "java",
-            "name": "Launch SpringGreetApplication1",
+            "name": "2. notification-service (8201) - subscriber",
             "request": "launch",
-            "mainClass": "lab.microservice.hello.SpringGreetApplication",
-            "projectName": "sample-microservice-hello",
-            "args": "--server.port=8100"
+            "mainClass": "th.mfu.notification.NotificationServiceApp",
+            "projectName": "library-notification-service"
+        },
+        {
+            "type": "java",
+            "name": "3. popularity-service (8202) - subscriber",
+            "request": "launch",
+            "mainClass": "th.mfu.popularity.PopularityServiceApp",
+            "projectName": "library-popularity-service"
         }
-
     ]
 }
