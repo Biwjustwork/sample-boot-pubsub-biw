@@ -88,6 +88,11 @@ Open the two pages side by side - they reload themselves every 2 seconds:
 - <http://localhost:8201/> - notifications
 - <http://localhost:8202/> - book popularity
 
+> **A Dockerfile in every module?** Yes - each service carries one, but
+> `docker-compose.yml` does not use them yet. They are there for reference: it
+> is exactly how the lab packages its services, where everything - not just the
+> broker - runs in Docker. Each file explains how to build and run it by hand.
+
 > **One broker, two doors.** A program on your machine reaches Kafka at
 > `localhost:9094`. A program inside Docker reaches the same broker at
 > `kafka:9092`. This sample runs the services on your machine, so it uses 9094.
