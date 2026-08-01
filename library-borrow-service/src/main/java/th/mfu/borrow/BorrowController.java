@@ -53,6 +53,9 @@ public class BorrowController {
     @PostMapping
     public ResponseEntity<String> placeBorrow(@RequestBody String borrowJson) {
 
+        kafkaTemplate.send(topicName, borrowJson);
+        LOGGER.info("published to {}: {}", topicName, borrowJson);
+
         // TODO: (step 1) Publish the event:
         //
         //   kafkaTemplate.send(topicName, borrowJson);

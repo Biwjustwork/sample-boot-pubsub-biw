@@ -37,19 +37,20 @@ public class BorrowPlacedListener {
     //         groupId - WHO IS READING. Each group gets its own copy of every
     //                   event. The popularity service uses a different group -
     //                   that is why both services receive the same event.
+
+    @KafkaListener(topics = "${app.kafka.topic:borrows}", groupId = "notification-group")
     public void onBorrowPlaced(ConsumerRecord<String, String> record) throws Exception {
         LOGGER.info("received from topic {}: {}", record.topic(), record.value());
 
         // TODO: (step 2) Turn the event back into data, and store a notification:
-        //
-        //   JsonNode event = objectMapper.readTree(record.value());
-        //   String memberName = event.get("memberName").asText();
-        //   String bookTitle = event.get("bookTitle").asText();
-        //
-        //   Notification notification = new Notification(memberName, bookTitle,
-        //           "Dear " + memberName + ", you borrowed " + bookTitle);
-        //   notificationRepository.save(notification);
-        //
+        
+        JsonNode event = objectMapper.readTree(record.value());
+        String memberName = event.get("memberName").asText();
+        String bookTitle = event.get("bookTitle").asText();
+    
+        Notification notification = new Notification(memberName, bookTitle,"Dear " + memberName + ", you borrowed " + bookTitle);
+        notificationRepository.save(notification);
+
         // Then watch http://localhost:8201/ while you post borrows.
     }
 }

@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Activity popularity</title>
+  <style>
+    body { font-family: sans-serif; margin: 2rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #f5f5f5; text-align: left; }
+  </style>
+  <script>
+    async function load() {
+      const res = await fetch('/activity');
+      const data = await res.json();
+      data.sort((a, b) => (b.borrowCount || 0) - (a.borrowCount || 0));
+      const tbody = document.getElementById('tbody');
+      tbody.innerHTML = '';
+      data.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${p.name||''}</td><td>${p.borrowCount||''}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+    setInterval(load, 2000);
+    window.onload = load;
+  </script>
+</head>
+<body>
+  <h1>Activity popularity</h1>
+  <p>Every number on this page is derived from the borrow events. Nobody ever
+     posts a count here.</p>
+  <table>
+    <thead><tr><th>Member Name</th><th>Times borrowed</th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</body>
+</html>

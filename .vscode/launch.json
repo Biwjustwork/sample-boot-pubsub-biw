@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ActivityServiceApp",
+            "request": "launch",
+            "mainClass": "th.mfu.activity.ActivityServiceApp",
+            "projectName": "library-activity-service"
+        },
+        {
+            "type": "java",
             "name": "1. borrow-service (8200) - the producer",
             "request": "launch",
             "mainClass": "th.mfu.borrow.BorrowServiceApp",

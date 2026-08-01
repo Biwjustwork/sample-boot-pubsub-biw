@@ -1,0 +1,22 @@
+$kind: http-request
+description: |-
+  One row per book, with a count. The SAME events as the notification list, reacted to differently - that is one announcement, two subscribers.
+
+  Nobody ever posts a count here. It is derived state: delete it, replay the events (step 5), and it comes back.
+
+  Easier to watch as the page: http://localhost:8202/
+url: "{{popularityService}}/popularity"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("answers 200", function () {
+          pm.response.to.have.status(200);
+      });
+      pm.test("step 3: the counts are derived from the events", function () {
+          const row = pm.response.json().find(p => p.bookTitle === "1984");
+          pm.expect(row, "no row for 1984 yet - post a borrow first").to.not.be.undefined;
+          pm.expect(row.borrowCount).to.be.above(0);
+      });
+    language: text/javascript
+order: 2000

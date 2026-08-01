@@ -1,0 +1,11 @@
+$kind: collection
+description: |-
+  Import this into Postman to try the event-driven library by hand.
+
+  Start the broker first (docker compose up), then the three services.
+
+  The requests are in the order of the steps in TODO.md.
+variables:
+  borrowService: http://localhost:8200
+  notificationService: http://localhost:8201
+  popularityService: http://localhost:8202

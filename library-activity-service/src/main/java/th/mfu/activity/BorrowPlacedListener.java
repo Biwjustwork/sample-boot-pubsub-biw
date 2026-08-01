@@ -1,4 +1,4 @@
-package th.mfu.popularity;
+package th.mfu.activity;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class BorrowPlacedListener {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    private BookPopularityRepository popularityRepository;
+    private ActivityRepository activityRepository;
 
     // TODO: (step 3) Do what you did in step 2, on your own this time.
     //
@@ -49,19 +49,18 @@ public class BorrowPlacedListener {
     //            popularityRepository.save(entry);
     //
     //       Then watch http://localhost:8202/ while you post borrows.
-    @KafkaListener(topics = "${app.kafka.topic:borrows}", groupId = "popularity-group")
+    @KafkaListener(topics = "${app.kafka.topic:borrows}", groupId = "activity-group2")
     public void onBorrowPlaced(ConsumerRecord<String, String> record) throws Exception {
         LOGGER.info("received from topic {}: {}", record.topic(), record.value());
 
         JsonNode event = objectMapper.readTree(record.value());
-        String memberName = event.get("memberName").asText();
-        String bookTitle = event.get("bookTitle").asText();
+        String memberName = event.has("memberName") ? event.get("memberName").asText() : (event.has("name") ? event.get("name").asText() : "");
 
-        BookPopularity entry = popularityRepository.findByBookTitle(bookTitle);
+        MemberActivity entry = activityRepository.findByName(memberName);
         if (entry == null) {
-            entry = new BookPopularity(bookTitle, 0);
+            entry = new MemberActivity(memberName, 0);
         }
         entry.setBorrowCount(entry.getBorrowCount() + 1);
-        popularityRepository.save(entry);
+        activityRepository.save(entry);
     }
 }

@@ -1,0 +1,26 @@
+$kind: http-request
+description: |-
+  THE request of the whole session.
+
+  Notice what the 201 does NOT tell you: whether anybody read the event. The producer cannot know, and does not need to. Send this while the subscribers are STOPPED (step 4) and it still answers 201.
+
+  After step 1, every send also appears in the console-consumer window.
+url: "{{borrowService}}/borrows"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+        "bookTitle": "1984",
+        "memberName": "Alice Johnson"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("answers 201", function () {
+          pm.response.to.have.status(201);
+      });
+    language: text/javascript
+order: 1000
